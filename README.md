@@ -1,12 +1,12 @@
 # OpenResty Docker image
 
-This repository contains Dockerfiles for [ficusio/openresty](https://hub.docker.com/r/ficusio/openresty/) image, which has two flavors.
+This repository contains Dockerfiles for [visually/openresty](https://hub.docker.com/r/visually/openresty/) image, forked from [ficusio/openresty](https://hub.docker.com/r/ficusio/openresty/).
 
 ### Flavors
 
-The main one is [Alpine linux](https://hub.docker.com/_/alpine/)-based `ficusio/openresty:latest`. Its virtual size is just 31MB, yet it contains a fully functional [OpenResty](http://openresty.org) bundle v1.9.3.1 and [`apk` package manager](http://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management), which allows you to easily install [lots of  pre-built packages](https://pkgs.alpinelinux.org/packages).
+The main one is [Alpine linux](https://hub.docker.com/_/alpine/)-based `visually/openresty:latest`. Its virtual size is just 38MB, yet it contains a fully functional [OpenResty](http://openresty.org) bundle v1.11.2.5 and [`apk` package manager](http://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management), which allows you to easily install [lots of  pre-built packages](https://pkgs.alpinelinux.org/packages).
 
-The other flavor is `ficusio/openresty:debian`. It is based on `debian:wheezy` and thus is much bigger in size (256MB). It is mostly useful for NginX profiling, as it may not be easy to build different profiling tools with [musl libc](http://www.musl-libc.org/), which is used in Alpine Linux.
+The other flavor is `visually/openresty:debian`. It is based on `debian:wheezy` and thus is much bigger in size (256MB). It is mostly useful for NginX profiling, as it may not be easy to build different profiling tools with [musl libc](http://www.musl-libc.org/), which is used in Alpine Linux.
 
 ### Paths & config
 
@@ -20,7 +20,7 @@ NginX stores various temporary files in `/var/nginx/` directory. If you wish to 
 
 ```sh
 # To launch container
-docker run --name nginx --read-only -v /var/nginx ... ficusio/openresty
+docker run --name nginx --read-only -v /var/nginx ... visually/openresty
 
 # To remove container and its volume
 docker rm -v nginx
@@ -43,11 +43,11 @@ project_root/
 Dockerfile:
 
 ```dockerfile
-FROM ficusio/openresty:latest
+FROM visually/openresty:latest
 EXPOSE 8080
 ```
 
-Check [the sample application](https://github.com/ficusio/openresty/tree/master/_example) for more useful example.
+Check [the sample application](https://github.com/visually/openresty/tree/master/_example) for more useful example.
 
 ### Command-line parameters
 
@@ -60,7 +60,7 @@ Error log is redirected to `stderr` to simplify debugging and log collection wit
 If you wish to run it with different command-line options, you can add `CMD` directive to your Dockerfile. It will override the command provided in this image. Another option is to pass a command to `docker run` directly:
 
 ```text
-$ docker run --rm -it --name test ficusio/openresty bash
+$ docker run --rm -it --name test visually/openresty bash
 root@06823698db68:/opt/openresty/nginx $ ls -l
 total 12
 drwxr-xr-x    2 root     root          4096 Feb  1 14:48 conf
@@ -80,7 +80,7 @@ exec docker run --rm -it \
   -v "$(pwd)/nginx/conf":/opt/openresty/nginx/conf \
   -v "$(pwd)/nginx/lualib":/opt/openresty/nginx/lualib \
   -p 8080:8080 \
-  ficusio/openresty:debian "$@"
+  visually/openresty:debian "$@"
 
 # you may add more -v options to mount another directories, e.g. nginx/html/
 
